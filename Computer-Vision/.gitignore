@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.pyc
+
+# YOLO weights
+*.pt
+
+# VSCode settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
