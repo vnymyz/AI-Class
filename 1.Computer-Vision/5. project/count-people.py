@@ -6,7 +6,7 @@ model = YOLO("yolov8n.pt")
 
 # load image
 # try using gruop 2
-img = cv2.imread("Resources/Photos/group-2.jpg")
+img = cv2.imread("Resources/Photos/group-1.jpg")
 
 # run detection
 results = model(img)

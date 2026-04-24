@@ -5,7 +5,7 @@ img = cv2.imread("Resources/Photos/park.jpg")
 # OpenCV Usually Loads image as BGR
 # convert color spaces
 # HSV usually used for color detection like
-# detecting red object, traffic loghts or fruits
+# detecting red object, traffic lights or fruits
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)

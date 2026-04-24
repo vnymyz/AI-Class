@@ -5,7 +5,7 @@ import cv2
 img = cv2.imread("Resources/Photos/group-1.jpg")
 
 # Resize the image to a specific size (width, height)
-resized = cv2.resize(img, (224,224))
+resized = cv2.resize(img, (120,150))
 
 cv2.imshow("Original", img)
 cv2.imshow("Resized", resized)
