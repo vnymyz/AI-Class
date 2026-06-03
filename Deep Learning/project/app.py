@@ -271,6 +271,30 @@ def sentiment_badge(prob):
         return "NEUTRAL", "#f39c12", "😐"
 
 
+def generate_reply(prob):
+    """Return an automated reply text based on predicted sentiment."""
+    if prob >= 0.65:
+        return (
+            "POSITIVE",
+            "😊 Thank you so much for your wonderful feedback! "
+            "We're truly glad you had such a great experience. "
+            "Your kind words mean the world to us — we hope to see you again soon!"
+        )
+    elif prob <= 0.35:
+        return (
+            "NEGATIVE",
+            "😔 We're truly sorry to hear that your experience didn't meet your expectations. "
+            "Your feedback is valuable and helps us improve. "
+            "Please don't hesitate to reach out to us directly — we'd love the chance to make things right."
+        )
+    else:
+        return (
+            "NEUTRAL",
+            "🙏 Thank you for taking the time to share your thoughts with us. "
+            "We appreciate your honest feedback and will use it to keep improving your experience."
+        )
+
+
 def render_prediction_card(stage_name, prob, train_acc, inference_time, description):
     """Render a model result card with probability bar."""
     label, color, emoji = sentiment_badge(prob)
@@ -465,6 +489,45 @@ def main():
                             "Stage 3 — DistilBERT", prob, None, elapsed,
                             "Pre-trained transformer, fine-tuned on SST-2"
                         )
+
+                # ── Auto-Reply Section ────────────────────────────────────
+                st.divider()
+                st.subheader("💬 Automated Reply")
+
+                # Use the best available model's probability (priority: BERT > LSTM > MLP)
+                reply_prob = None
+                reply_source = ""
+                if use_bert and bert_pipe:
+                    reply_prob   = predict_distilbert(review, bert_pipe)
+                    reply_source = "DistilBERT"
+                elif use_lstm and lstm_model:
+                    reply_prob   = predict_lstm(review, lstm_model, lstm_tokenizer, lstm_maxlen)
+                    reply_source = "BiLSTM"
+                elif use_mlp and mlp_model:
+                    reply_prob   = predict_mlp(review, mlp_model, mlp_vectorizer)
+                    reply_source = "MLP"
+
+                if reply_prob is not None:
+                    sentiment_label, reply_text = generate_reply(reply_prob)
+                    _, badge_color, badge_emoji = sentiment_badge(reply_prob)
+
+                    st.caption(f"Generated based on **{reply_source}** prediction — {badge_emoji} {sentiment_label}")
+                    st.markdown(
+                        f"<div style='"
+                        f"border-left: 4px solid {badge_color}; "
+                        f"background: {badge_color}18; "
+                        f"padding: 14px 18px; "
+                        f"border-radius: 6px; "
+                        f"font-size: 1.05rem; "
+                        f"color: inherit;'>"
+                        f"{reply_text}"
+                        f"</div>",
+                        unsafe_allow_html=True
+                    )
+
+                    # Allow user to copy the reply text
+                    with st.expander("📋 Copy reply text"):
+                        st.code(reply_text, language=None)
 
     # ════════════════════════════════════════════════════════════════════════
     # TAB 2: EXPLORE DATASET
