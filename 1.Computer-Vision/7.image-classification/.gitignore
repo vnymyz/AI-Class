@@ -1,0 +1,27 @@
+# data
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# models
+models/*
+!models/.gitkeep
+!models/animal_classifier.keras
+
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# env
+venv/
+.env
+
+# personal notes (contains API token, do not commit)
+token-kaggle.md
+CLAUDE.md
+
+# OS junk
+Thumbs.db
+.DS_Store
