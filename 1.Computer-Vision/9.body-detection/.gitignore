@@ -1,0 +1,26 @@
+# Python
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.egg-info/
+
+# Downloaded model weights (auto-downloaded on first run, don't need to be in git)
+yolov8n.pt
+models/*.task
+
+# Ultralytics run outputs
+runs/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Claude
+.claude/
+**/.claude/
+CLAUDE.md
